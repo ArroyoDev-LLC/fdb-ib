@@ -1687,9 +1687,10 @@ class fbclient_API(object):
         self.isc_interprete.restype = ISC_LONG
         self.isc_interprete.argtypes = [STRING, POINTER(POINTER(ISC_STATUS))]
         #: fb_interpret(STRING, c_uint, POINTER(POINTER(ISC_STATUS)))
-        self.fb_interpret = fb_library.fb_interpret
-        self.fb_interpret.restype = ISC_LONG
-        self.fb_interpret.argtypes = [STRING, c_uint, POINTER(POINTER(ISC_STATUS))]
+        #### PATCH:2 ####
+        # self.fb_interpret = fb_library.fb_interpret
+        # self.fb_interpret.restype = ISC_LONG
+        # self.fb_interpret.argtypes = [STRING, c_uint, POINTER(POINTER(ISC_STATUS))]
         #: isc_open_blob(POINTER(ISC_STATUS), POINTER(isc_db_handle), POINTER(isc_tr_handle), POINTER(isc_blob_handle), POINTER(ISC_QUAD))
         self.isc_open_blob = fb_library.isc_open_blob
         self.isc_open_blob.restype = ISC_STATUS
