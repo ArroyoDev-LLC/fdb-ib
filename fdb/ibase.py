@@ -1351,11 +1351,13 @@ class fbclient_API(object):
 
         if fb_library_name is None:
             if sys.platform == 'darwin':
-                fb_library_name = find_library('Firebird')
+                # ? not sure about darwin gds lib name.
+                fb_library_name = find_library('gds')
             # Next elif is necessary hotfix for ctypes issue
             # http://bugs.python.org/issue16283
+            ### PATCH: Look for gds lib for interbase.
             elif sys.platform == 'win32':
-                fb_library_name = find_library('fbclient.dll')
+                fb_library_name = find_library('gds32.dll')
                 if not fb_library_name:
                     # let's try windows registry
                     if PYTHON_MAJOR_VER == 3:
@@ -1365,19 +1367,19 @@ class fbclient_API(object):
 
                     # try find via installed Firebird server
                     key = get_key(winreg.HKEY_LOCAL_MACHINE,
-                                  'SOFTWARE\\Firebird Project\\Firebird Server\\Instances')
+                                  'SOFTWARE\\Embarcadero\\InterBase\\Servers')
                     if not key:
                         key = get_key(winreg.HKEY_LOCAL_MACHINE,
-                                      'SOFTWARE\\Wow6432Node\\Firebird Project\\Firebird Server\\Instances')
+                                      'SOFTWARE\\Wow6432Node\\Embarcadero\\InterBase\\Servers')
                     if key:
-                        instFold = winreg.QueryValueEx(key, 'DefaultInstance')
-                        fb_library_name = os.path.join(os.path.join(instFold[0], 'bin'), 'fbclient.dll')
+                        instFold = winreg.QueryValueEx(key, 'RootDirectory')
+                        fb_library_name = os.path.join(os.path.join(instFold[0], 'bin'), 'gds32.dll')
             else:
-                fb_library_name = find_library('fbclient')
+                fb_library_name = find_library('gds')
                 if not fb_library_name:
                     try:
-                        x = CDLL('libfbclient.so')
-                        fb_library_name = 'libfbclient.so'
+                        x = CDLL('libgds.so')
+                        fb_library_name = 'libgds.so'
                     except:
                         pass
 
