@@ -486,7 +486,7 @@ def is_dead_proxy(obj):
 def b2u(st, charset):
     "Decode to unicode if charset is defined. For conversion of result set data."
     if charset:
-        return st.decode(charset)
+        return st.decode(charset, 'replace')
     else:
         return st
 
